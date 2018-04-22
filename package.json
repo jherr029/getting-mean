@@ -15,8 +15,11 @@
     "debug": "~2.6.9",
     "eslint": "^4.19.1",
     "express": "~4.16.0",
+    "fakegoose": "0.0.3",
+    "faker": "^4.1.0",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
+    "json-schema-faker": "^0.5.0-rc15",
     "mongoose": "^5.0.14",
     "morgan": "~1.9.0"
   }
