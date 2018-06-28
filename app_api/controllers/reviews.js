@@ -194,7 +194,7 @@ module.exports.reviewsUpdateOne = function(req, res) {
         );
 };
 
-module.exports.reviewDeleteOne = function(req, res) {
+module.exports.reviewsDeleteOne = function(req, res) {
     if (!req.params.locationid || !req.params.reviewid) {
         sendJsonResponse(res, 404, {
             "message": "Not found, locationid and reviewid are both required"
