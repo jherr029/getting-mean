@@ -48,7 +48,7 @@ block content
                 .col-xs-12
                     .panel.panel-primary.review-panel
                         .panel-heading
-                            a.btn.btn-default.pull-right(href='/location/review/new') Add Review
+                            a.btn.btn-default.pull-right(href='/location/#{location._id}/review/new') Add Review
                             h2.panel-title Customer Reviews
                         .panel-body.review-container
                             .row
@@ -60,24 +60,21 @@ block content
                                             span.glyphicon.glyphicon-star
                                             span.glyphicon.glyphicon-star
                                             span.glyphicon.glyphicon-star
-                                        span.reviewAuthor Simon Holmes
-                                        small.reviewTimeStamp 16 July 9999
-                                    .col-xs-12
-                                        p What a great place. I can't say enough good things about it.
-                            .row
-                                .review
-                                    .well.well-sm.review-header
-                                        span.rating
-                                            span.glyphicon.glyphicon-star
-                                            span.glyphicon.glyphicon-star
-                                            span.glyphicon.glyphicon-star
+                                        span.reviewAuthor #{review.author.displayName}
+                                        small.reviewTimeStamp
+                                            +formateDate(review.createdOn)
+                                    .col-xs-12 p What a great place. I can't say enough good things about it. 
+                            .row 
+                                .review ]
+                                    .well.well-sm.review-header 
+                                        span.rating 
+                                            span.glyphicon.glyphicon-star 
+                                            span.glyphicon.glyphicon-star 
+                                            span.glyphicon.glyphicon-star 
                                             span.glyphicon.glyphicon-star-empty
-                                            span.glyphicon.glyphicon-star-empty
-                                        span.reviewAuthor Carlie Cap
-                                        small.reviewTimestamp 16 June 1293
-                                    .col-xs-12
-                                        .p The coffee is alright. 
-        .col-xs-12.col-md-3
-            p.lead Simon's Cafe is on Loc8r because it has accessible wifi and space to sit down and get some work done
-            p Please leave a review to help other people just like you
-                            
+                                            span.glyphicon.glyphicon-star-empty 
+                                            span.reviewAuthor #{review.author.displayName}
+                                            small.reviewTimestamp
+                                                +formateDate(review.createdOn)
+                                            .col-xs-12 .p The coffee is alright. 
+                                            .col-xs-12.col-md-3 p.lead Simon's Cafe is on Loc8r because it has accessible wifi and space to sit down and get some work done p Please leave a review to help other people just like you                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

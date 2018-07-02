@@ -28,7 +28,7 @@ module.exports.locationsCreate = function (req, res) {
     Loc.create({
         name: req.body.name,
         addres: req.body.address,
-        facilities: req.body.facilities.split(","),
+        facilities: (req.body.facilities  || "").split(","),
         coords: [parseFloat(req.body.lng), parseFloat(req.body.lat)],
         openingTimes: [{
             days: req.body.days1,
@@ -76,20 +76,30 @@ module.exports.locationsListByDistance = function (req, res) {
         if (err) {
             sendJsonResponse(res, 404, err);
         } else {
-            results.forEach(function(doc) {
-                locations.push({
-                    distance: theEarth.getDistanceFromRads(doc.dis),
-                    name: doc.obj.name,
-                    address: doc.obj.address,
-                    rating: doc.obj.rating,
-                    facilities: doc.obj.facilities,
-                    _id: doc.obj._id
-                });
-            });
+            locations = buildLocationList(req, res, results, stats);
             sendJsonResponse(res, 200, locations);
         }
     });
 };
+
+
+var buildLocationList = function(req, res, results, stats) {
+    var locations = [];
+
+    results.forEach(function(doc) {
+        locations.push({
+            distance: theEarth.getDistanceFromRads(doc.dis),
+            name: doc.obj.name,
+            address: doc.obj.address,
+            rating: doc.obj.rating,
+            facilities: doc.obj.facilities,
+            _id: doc.obj._id
+
+        });
+    });
+
+    return locations;
+}
 
 module.exports.locationsReadOne = function (req, res) { 
     if (req.params && req.params.locationid) {
@@ -139,7 +149,7 @@ module.exports.locationsUpdateOne = function (req, res) {
                 
                 location.name = req.body.name;
                 location.address = req.body.address;
-                location.facilities = req.body.facilities.split(",");
+                location.facilities = (req.body.facilities || '').split(",");
                 location.coords = [parseFloat(req.body.lng), parseFloat(req.body.lat)];
                 location.openingTimes = [{
                     days: req.body.days1,
@@ -152,12 +162,16 @@ module.exports.locationsUpdateOne = function (req, res) {
                     closing: req.body.closing2,
                     closed: req.body.closed2,
                 }];
-
+                
                 location.save(function(err, location) {
+                    var thisReview;
                     if (err) {
-                        sendJsonResponse(res, 404, err);
+                        console.log(err);
+                        sendJsonResponse(res, 400, err);
                     } else {
-                        sendJsonResponse(res, 200, location);
+                        updateAverageRating(location._id);
+                        thisReview = location.reviews[location.reviews.length - 1];
+                        sendJsonResponse(res, 201, location);
                     }
                 });
             }
