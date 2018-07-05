@@ -71,15 +71,19 @@ module.exports.locationsListByDistance = function (req, res) {
         return;
     }
 
-    Loc.geoNear(point, geoOptions, function(err, result, stats) {
-        var locations = [];
-        if (err) {
-            sendJsonResponse(res, 404, err);
-        } else {
-            locations = buildLocationList(req, res, results, stats);
-            sendJsonResponse(res, 200, locations);
-        }
-    });
+    Loc.aggregate(
+        [
+            {
+                $geoNear: {
+                    near: { type: "Point", coordinates : [10, 10]},
+                    distanceField: 'dist',
+                    maxDistance: 10000,
+                    spherical: true
+                }
+            }
+        ]).then(function(err, results, next){
+            res.send();
+        })
 };
 
 
